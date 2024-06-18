@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="produc.css">
+    <title>Product Card</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="img/pexels-d-c-phu-1052973679-20766430.jpg" alt="Product Image" class="product-image">
+            <div class="product-details">
+                <h2>LENCERIA SEXY</h2>
+                <p>Talla M</p>
+                <p class="price">$100.000</p>
+                <div>
+                    <h3 class="description-title">Descripción</h3>
+                    <p class="description-text">
+                        Lenceria is ranking as one of the best sport shoes in the world. It leaves you in comfort
+                        at all times. We guarantee total comfortability with the lightweight new designs.
+                    </p>
+                    <div class="rating">
+                        <span>⭐</span>
+                        <span>4.6</span>
+                    </div>
+                </div>
+                <div class="quantity-control">
+                    <button id="decreaseBtn" class="quantity-button">-</button>
+                    <span id="quantity" class="quantity-text">02</span>
+                    <button id="increaseBtn" class="quantity-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Agregar Al Carrito</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const quantityElement = document.getElementById('quantity');
+        const increaseBtn = document.getElementById('increaseBtn');
+        const decreaseBtn = document.getElementById('decreaseBtn');
+        let quantity = 2;
+
+        increaseBtn.addEventListener('click', () => {
+            quantity++;
+            quantityElement.textContent = quantity.toString().padStart(2, '0');
+        });
+
+        decreaseBtn.addEventListener('click', () => {
+            if (quantity > 0) {
+                quantity--;
+                quantityElement.textContent = quantity.toString().padStart(2, '0');
+            }
+        });
+    </script>
+</body>
+</html>
