@@ -1,0 +1,139 @@
+/*search bar*/
+.style-scope{
+   border-radius: 10px;
+}
+
+.btn-custom-outline {
+    color: #ff0000; /* Color del texto */
+    border-color: #ff0000; /* Color del borde */
+  }
+  .btn-custom-outline:hover {
+    background-color: #ff0000; /* Color de fondo al hacer hover */
+    color: #fff; /* Color del texto al hacer hover */
+  }
+
+  /*categorias*/
+  
+
+  /*icon user*/
+  .navbar-nav{
+    gap: 50px;
+    color: #ff0000;
+  }
+
+  #Ingresar{
+    color: black;
+  }
+
+  .navuser{
+    margin-left: 1500px;
+    margin-top: -70px;
+  }
+
+  .d-block w-100{
+height: 80px;
+width: 50%;
+  }
+  
+  /*categorias*/
+  .nav-link{
+    color: #ff0000;
+  }
+
+
+  /*icono ingresar*/
+  .Usuario{
+    list-style: none;
+  } 
+
+  #ingreso{
+    color: black;
+  }
+
+
+
+
+  /*cards*/
+  .card{
+    display: inline-block;
+    vertical-align: top; /* Alineación vertical opcional */
+    margin-right: 5px;
+    margin: 10px;
+    cursor: pointer;
+    margin-left: 30px;
+    justify-content: center;
+  }
+
+  .Producto-grid{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap:16px;
+    margin-top: 16px;
+    display: inline-block;
+    vertical-align: top; /* Alineación vertical opcional */
+    justify-content: center;
+    margin:0px auto;
+  }
+
+  @media (max-width: 768px) {
+    .Producto-grid{
+
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+  }
+
+  @media (min-width:1024px) {
+    .Producto-grid{
+      grid-template-columns: (4, 1fr);
+    }
+  }
+
+  .PiePagina{
+    max-width:100%;
+    height: 300px;
+    margin: 5px;
+    background-color: #ff0000;
+  }
+
+  /*footer */
+  footer{
+    color: white;
+  }
+
+  .section1{
+    width: 32%;
+    height: 240px;
+    background-color: aqua;
+    display: inline-block;
+    justify-content: center;
+  
+  }
+
+
+  .section2{
+    width: 33%;
+    height: 240px;
+    background-color: rgb(135, 13, 200);
+    display: inline-block;
+    justify-content: center;
+
+  }
+ 
+  .section3{
+    width: 31%;
+    height: 240px;
+    background-color: rgb(66, 200, 13);
+    display: inline-block;
+    justify-content: center;
+  
+
+  }
+
+
+
+
+
+
+
+
