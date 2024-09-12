@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="css/semantic.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/jquery-3.1.1.min"></script>
+    <script src="js/semantic.js"></script>
+</head>
+<body>
+<div class="contenedor">
+    <div class="ui container">
+        <div class="ui placeholder segment">
+            <div class="ui grid">
+                <div class="ten wide column">
+                    <div class="section">
+                        <div class="details">
+                            <h2>Detalles del historial</h2>
+                            <div class="container">
+                                <div class="carta">
+                                    <img src="image/iconi2.png" alt="Icono de Producto" class="icon">
+                                    <div class="detail">
+                                        <div class="name"><h1>Nombre de usuario</h1></div>
+                                        <div class="info">
+                                            <div class="name1"><h2>Carmen Sanchez Rodriguez</h2></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="six wide column">
+                    <div class="form-container">
+                        <h2>Detalles de la Compra</h2>
+                        <form>
+                            <div class="search-field">
+                                <div class="ui action input">
+                                    <input type="search" name="search" placeholder="Buscar...">
+                                    <button class="ui button" type="submit">Buscar</button>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                
+                                <div class="field">
+                                    <label>Fecha de compra:</label>
+                                    <input type="date" name="purchase_date">
+                                </div>
+                                <div class="field">
+                                    <label>Productos:</label>
+                                    <input type="text" name="products" placeholder="Lista de productos">
+                                </div>
+                                <div class="field">
+                                    <label>Cantidad de productos:</label>
+                                    <input type="number" name="quantity" placeholder="Cantidad" min="1">
+                                </div>
+                                <div class="field">
+                                    <label>Total:</label>
+                                    <input type="number" name="total" placeholder="Total" step="0.01">
+                                </div>
+                            </div>
+                            <div class="submit-container">
+                                <button class="ui button" type="submit">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

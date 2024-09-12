@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mi Carrito de Compras</h1>
+    </header>
+
+    <main>
+        <section class="cart-section">
+            <div class="cart-details">
+                <h2>Detalles del Carrito</h2>
+                <div class="cart-container">
+                    <!-- Producto 1 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto A</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="2" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$10.00</span>
+                            </div>
+                            <div class="item-total">$20.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+                    <!-- Producto 2 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto B</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="1" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$15.00</span>
+                            </div>
+                            <div class="item-total">$15.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+                    <!-- Producto 3 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto C</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="3" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$8.00</span>
+                            </div>
+                            <div class="item-total">$24.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+                    <!-- Producto 4 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto D</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="4" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$12.00</span>
+                            </div>
+                            <div class="item-total">$48.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+                    <!-- Producto 5 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto E</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="2" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$20.00</span>
+                            </div>
+                            <div class="item-total">$40.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+                    <!-- Producto 6 -->
+                    <div class="cart-item">
+                        <img src="image/ropa.jfif" alt="Icono de Producto" class="product-icon">
+                        <div class="item-details">
+                            <div class="item-name">Producto F</div>
+                            <div class="item-info">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn" data-action="decrease">-</button>
+                                    <input type="number" class="item-quantity" value="5" min="1">
+                                    <button class="quantity-btn" data-action="increase">+</button>
+                                </div>
+                                <span class="item-price">$7.00</span>
+                            </div>
+                            <div class="item-total">$35.00</div>
+                        </div>
+                        <i class="fas fa-trash delete-icon"></i>
+                    </div>
+            
+                    
+                </div>
+            </div>
+            <div class="cart-summary">
+                <h2>Resumen de Compra</h2>
+                <div class="summary-item">
+                    <span class="summary-label">Subtotal:</span>
+                    <span class="summary-value">$182.00</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Envío:</span>
+                    <span class="summary-value">$5.00</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Total:</span>
+                    <span class="summary-total">$187.00</span>
+                </div>
+                <!-- Botón de Hacer Pedido -->
+                <div class="order-section">
+                    <button class="order-button">Hacer Pedido</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mi Tienda Online. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
+
