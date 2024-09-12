@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Barra de Navegación -->
+<nav class="navbar navbar-expand-lg navbar-custom mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#" style="color: #ffffff;">Gestión de Pedidos</a>
+        <div class="collapse navbar-collapse">
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscar pedido" aria-label="Buscar">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+            <div class="ml-4 user-info">
+                <span>Usuario: Juan Pérez</span>
+                <button class="btn btn-outline-light btn-sm ml-2" onclick="enviarCorreo()">Enviar Correo</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenedor Principal -->
+<div class="container">
+    <h2>Pedidos Realizados</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID Pedido</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pedido 001</td>
+                <td>Juan Pérez</td>
+                <td>2024-09-10</td>
+                <td>$150.00</td>
+                <td>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#pedidoModal" onclick="mostrarDetallesPedido(1)">Ver Detalles</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarPedido(1)">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Pedido 002</td>
+                <td>Juan Pérez</td>
+                <td>2024-09-11</td>
+                <td>$250.00</td>
+                <td>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#pedidoModal" onclick="mostrarDetallesPedido(2)">Ver Detalles</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarPedido(2)">Eliminar</button>
+                </td>
+            </tr>
+            <!-- Más filas de pedidos -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para Detalles del Pedido -->
+<div class="modal fade" id="pedidoModal" tabindex="-1" role="dialog" aria-labelledby="pedidoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pedidoModalLabel">Detalles del Pedido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenido de detalles del pedido -->
+                <p><strong>ID Pedido:</strong> <span id="pedidoId"></span></p>
+                <p><strong>Cliente:</strong> <span id="pedidoCliente"></span></p>
+                <p><strong>Fecha:</strong> <span id="pedidoFecha"></span></p>
+                <p><strong>Total:</strong> <span id="pedidoTotal"></span></p>
+                <hr>
+                <h5>Productos en el Pedido</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pedidoArticulos">
+                        <!-- Lista de artículos del pedido -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botón de Ayuda -->
+<button class="btn btn-primary btn-help" onclick="pedirAyuda()">¿Necesitas Ayuda?</button>
+
+<!-- Bootstrap JS, jQuery y Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- JavaScript para mostrar detalles del pedido y funcionalidades adicionales -->
+<script>
+    function mostrarDetallesPedido(idPedido) {
+        // Simulación de datos del pedido
+        const pedidos = {
+            '1': {
+                cliente: 'Juan Pérez',
+                fecha: '2024-09-10',
+                total: '$150.00',
+                articulos: [
+                    { nombre: 'Artículo 1', cantidad: 1, precio: '$50.00', total: '$50.00' },
+                    { nombre: 'Artículo 2', cantidad: 2, precio: '$30.00', total: '$60.00' },
+                    { nombre: 'Artículo 3', cantidad: 1, precio: '$40.00', total: '$40.00' }
+                ]
+            },
+            '2': {
+                cliente: 'Juan Pérez',
+                fecha: '2024-09-11',
+                total: '$250.00',
+                articulos: [
+                    { nombre: 'Artículo A', cantidad: 3, precio: '$70.00', total: '$210.00' },
+                    { nombre: 'Artículo B', cantidad: 1, precio: '$40.00', total: '$40.00' }
+                ]
+            }
+        };
+
+        // Obtener datos del pedido
+        const pedido = pedidos[idPedido];
+
+        // Actualizar contenido del modal
+        document.getElementById('pedidoId').innerText = idPedido;
+        document.getElementById('pedidoCliente').innerText = pedido.cliente;
+        document.getElementById('pedidoFecha').innerText = pedido.fecha;
+        document.getElementById('pedidoTotal').innerText = pedido.total;
+
+        // Llenar la lista de artículos
+        const articulosList = document.getElementById('pedidoArticulos');
+        articulosList.innerHTML = ''; // Limpiar lista
+        pedido.articulos.forEach(articulo => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${articulo.nombre}</td>
+                <td>${articulo.cantidad}</td>
+                <td>${articulo.precio}</td>
+                <td>${articulo.total}</td>
+            `;
+            articulosList.appendChild(row);
+        });
+    }
+
+    function eliminarPedido(idPedido) {
+        if (confirm('¿Estás seguro de que deseas eliminar el pedido ' + idPedido + '?')) {
+            alert('Pedido ' + idPedido + ' eliminado.');
+            // Aquí agregarías la lógica para eliminar el pedido en el servidor o base de datos
+        }
+    }
+
+    function enviarCorreo() {
+        alert('Correo enviado a Juan Pérez.');
+        // Aquí agregarías la lógica para enviar un correo
+    }
+
+    function pedirAyuda() {
+        alert('Un agente se pondrá en contacto contigo pronto.');
+        // Aquí agregarías la lógica para solicitar ayuda
+    }
+</script>
+</body>
+</html>

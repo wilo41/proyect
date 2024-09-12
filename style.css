@@ -1,0 +1,17 @@
+
+.navbar-custom {
+    background-color: #343a40;
+    color: #ffffff;
+}
+.user-info {
+    font-size: 14px;
+    color: #ffffff;
+}
+.table th, .table td {
+    vertical-align: middle;
+}
+.btn-help {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
