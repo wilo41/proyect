@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" href="{% static 'css/style22.css' %}">
+    <link rel="icon" type="image/png" href="../assets/img/logoNegro.png">
+    <style>
+      .error {
+        border: 2px solid rgb(255, 0, 0);
+      }
+
+      .error-message {
+        color: red;
+        color: rgb(255, 218, 218);
+        font-size: 14px;
+        margin-top: 5px;
+        display: none; 
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="form-container">
+   
+      <p class="title">Fantasia Intima</p>
+      <p class="title1">Recuperar Contraseña</p>
+      
+      <form class="form" id="recoverForm" method="POST">
+        {% csrf_token %}
+        <input type="email" id="email" name="email" class="input" placeholder="Correo Electrónico">
+        <span class="error-message" id="error-email"></span>
+       
+        <button type="submit" class="form-btn">Enviar código</button>
+      </form>
+
+    </div>
+
+    <script>
+      function validarCorreo() {
+        const email = document.getElementById('email');
+        const errorMessage = document.getElementById('error-email');
+
+        // Limpiar errores previos
+        email.classList.remove('error');
+        errorMessage.style.display = 'none';
+
+        let hasError = false;
+
+        // Validar que el correo termine en "gmail.com"
+        if (!email.value.endsWith('gmail.com')) {
+          email.classList.add('error');
+          errorMessage.textContent = 'El correo debe terminar con "gmail.com".';
+          errorMessage.style.display = 'block';
+          hasError = true;
+        }
+
+        // Verificar que el campo no esté vacío
+        if (email.value === '') {
+          email.classList.add('error');
+          errorMessage.textContent = 'Este campo es obligatorio.';
+          errorMessage.style.display = 'block';
+          hasError = true;
+        }
+
+        if (!hasError) {
+          alert('Código enviado correctamente.');
+          setTimeout(() => {
+            document.getElementById('recoverForm').submit();
+          }, 1500);
+        }
+      }
+    </script>
+
+  </body>
+</html>
