@@ -33,7 +33,7 @@
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="profile-pic" class="profile-pic-label">
-              <img src="{{ imagen_perfil }}" alt="Profile" id="profile-img" class="profile-pic">
+                <img src="{{ imagen_perfil }}" alt="Profile" id="profile-img" class="profile-pic">
             </label>
             <input type="file" id="profile-pic" name="profile-pic" accept="image/*" style="display:none;" onchange="document.getElementById('profile-form').submit()">
           </form>
@@ -57,13 +57,15 @@
           <i class="fa-solid fa-rotate-left"></i>
           Mis Devoluciones
         </button>
-        <button class="value">
-          <i class="fa-solid fa-trash"></i>
-          Eliminar Cuenta
-        </button>
-        <a href="{% url 'logout' %}" class="value" style="text-decoration:none;">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          Salir
+        <form action="{% url 'eliminar_cuenta' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="value">
+                <i class="fa-solid fa-trash"></i> Eliminar Cuenta
+            </button>
+        </form>
+        <a href="{% url 'Ladingpage' %}" class="value" style="text-decoration:none;" onclick="sessionStorage.clear();">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Salir
         </a>
       </div>
     </div>

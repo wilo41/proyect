@@ -24,7 +24,7 @@ from sexshop.views import (
     login, registro, recuperarContraseña, pedido, codigo, nuevaContraseña,
     insertarsubcategoria, listadosubcategorias, borrarsubcategoria, actualizarsubcategoria,editarusuario,
     borrarusuario, insertarusuario, carrito, lencerias, productosCarrito, insertardomiciliario, editardomiciliario, borrardomiciliario,
-    insertarproducto, editarproducto, borrarproducto, vibradores, disfraces, dildos, logout, eliminar_foto_perfil
+    insertarproducto, editarproducto, borrarproducto, vibradores, disfraces, dildos, logout, eliminar_foto_perfil, eliminar_cuenta
 )
 
 urlpatterns = [
@@ -67,6 +67,7 @@ urlpatterns = [
     path('disfraces', disfraces, name='disfraces'),
     path('dildos', dildos, name='dildos'),
     path('productos', productosCarrito, name='productosCarrito'),
+    path('eliminar-cuenta/', eliminar_cuenta, name='eliminar_cuenta'),
 ]
 
 if settings.DEBUG:

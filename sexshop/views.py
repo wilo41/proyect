@@ -6,10 +6,12 @@ from django.db.models import Q
 
 def LadingPage(request):
     categorias = categoria.objects.all().prefetch_related('subcategoria_set')
+    productos = producto.objects.all().select_related('IdSubCategoria__categoria')  # Carga productos con subcategoría y categoría
     username = request.session.get('username', None)
     first_name = request.session.get('first_name', None)
     return render(request, 'LadingPage.html', {
         'categorias': categorias,
+        'productos': productos, 
         'username': username,
         'first_name': first_name
     })
@@ -147,8 +149,7 @@ from django.contrib import messages
 
 def logout(request):
     request.session.flush()
-    messages.success(request, "Has cerrado sesión correctamente.")  # Mensaje de confirmación
-    return redirect('Ladingpage')
+    return redirect('Ladingpage')  
 
 
 def insertarusuario(request):
@@ -339,9 +340,9 @@ def perfiles(request):
                 return redirect('perfiles')
         
         return render(request, 'perfiles.html', {
-            'usuario': user,
-            'imagen_perfil': user.imagen_perfil.url if user.imagen_perfil else '/static/img/perfil.png'
-        })
+        'usuario': user,
+        'imagen_perfil': user.imagen_perfil.url if user.imagen_perfil else '/static/img/perfil.png'
+    })
         
     except usuario.DoesNotExist:
         return redirect('login')
@@ -366,6 +367,17 @@ def eliminar_foto_perfil(request):
 
 
 
+
+def eliminar_cuenta(request):
+    if request.method == 'POST' and request.session.get('user_id'):
+        try:
+            user = usuario.objects.get(IdUsuario=request.session['user_id'])
+            user.delete()  # Delete the user account
+            request.session.flush()  # Clear the session
+            return redirect('Ladingpage')  # Redirect to the landing page
+        except usuario.DoesNotExist:
+            pass
+    return JsonResponse({'status': 'error'}, status=400)
 
 def crudCategorias(request):
     return render(request, 'crud/categorias.html')
