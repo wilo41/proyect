@@ -24,9 +24,9 @@ class usuario(models.Model):
     SegundoApellido = models.CharField(max_length=255)
     Correo = models.EmailField(max_length=255, unique=True)
     NombreUsuario  = models.CharField(max_length=45)
-    Contraseña   = models.CharField(max_length=128)  
+    Contraseña   = models.CharField(max_length=128)
     idRol = models.ForeignKey('roles', on_delete=models.CASCADE, db_column='IdRol')
-
+    imagen_perfil = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     class Meta:
         db_table = 'usuario'
 

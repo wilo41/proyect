@@ -133,5 +133,15 @@ STATICFILES_DIRS = [
     'sexshop/static',
 ]
 
+# Usar sesiones en cookies firmadas (no requiere DB)
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+# Clave secreta para firmar las cookies (¡DEBE ser segura!)
+SECRET_KEY = 'tu-clave-secreta-muy-larga-y-compleja-aqui' 
+
+# Opcional: Configuración adicional de sesión
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False  
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -6,7 +6,13 @@ from django.db.models import Q
 
 def LadingPage(request):
     categorias = categoria.objects.all().prefetch_related('subcategoria_set')
-    return render(request, 'LadingPage.html', {'categorias': categorias})
+    username = request.session.get('username', None)
+    first_name = request.session.get('first_name', None)
+    return render(request, 'LadingPage.html', {
+        'categorias': categorias,
+        'username': username,
+        'first_name': first_name
+    })
 
 #region categorias
 def insertarcategorias(request):
@@ -111,25 +117,38 @@ def login(request):
         correo = request.POST.get('correo')
         contraseña = request.POST.get('contraseña')
 
-        # Verificar el usuario y contraseña en la base de datos para usuarios
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT Contraseña FROM usuario WHERE Correo = %s", [correo])
-            user = cursor.fetchone()
+        # Buscar usuario
+        try:
+            user = usuario.objects.get(Correo=correo)
+            if check_password(contraseña, user.Contraseña):
+                request.session['user_id'] = user.IdUsuario
+                request.session['username'] = user.NombreUsuario
+                request.session['nombre'] = f"{user.PrimerNombre} {user.PrimerApellido}"
+                return redirect('Ladingpage')
+        except usuario.DoesNotExist:
+            pass
 
-        if user and check_password(contraseña, user[0]):
-            return redirect('Ladingpage')
-        
-        # Verificar el usuario y contraseña en la base de datos para domiciliarios
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT Contraseña FROM domiciliario WHERE Correo = %s", [correo])
-            domiciliario = cursor.fetchone()
+        # Buscar domiciliario
+        try:
+            domi = domiciliario.objects.get(Correo=correo)
+            if check_password(contraseña, domi.Contraseña):
+                request.session['user_id'] = domi.IdDomiciliario
+                request.session['username'] = domi.NombreDomiciliario
+                request.session['nombre'] = domi.NombreDomiciliario
+                return redirect('Ladingpage')
+        except domiciliario.DoesNotExist:
+            pass
 
-        if domiciliario and check_password(contraseña, domiciliario[0]):
-            return redirect('Ladingpage')
-        else:
-            return render(request, 'login/login.html', {'error': 'Correo o contraseña incorrecta'})
-
+        return render(request, 'login/login.html', {'error': 'Credenciales inválidas'})
+    
     return render(request, 'login/login.html')
+
+from django.contrib import messages
+
+def logout(request):
+    request.session.flush()
+    messages.success(request, "Has cerrado sesión correctamente.")  # Mensaje de confirmación
+    return redirect('Ladingpage')
 
 
 def insertarusuario(request):
@@ -288,7 +307,65 @@ def borrarproducto(request, id_producto):
 
 
 def perfiles(request):
-    return render(request, 'perfiles.html')
+    if not request.session.get('user_id'):
+        return redirect('login')
+    
+    try:
+        user = usuario.objects.get(IdUsuario=request.session['user_id'])
+        
+        if request.method == 'POST':
+            # Verificar si es una actualización de datos o solo de imagen
+            if 'profile-pic' in request.FILES:
+                # Solo actualizar imagen
+                user.imagen_perfil = request.FILES['profile-pic']
+                user.save()
+                return JsonResponse({
+                    'status': 'success',
+                    'new_image_url': user.imagen_perfil.url if user.imagen_perfil else '/static/img/perfil.png'
+                })
+            else:
+                # Actualizar datos del perfil
+                user.PrimerNombre = request.POST.get('primerNombre', user.PrimerNombre)
+                user.OtrosNombres = request.POST.get('segundoNombre', user.OtrosNombres)
+                user.PrimerApellido = request.POST.get('primerApellido', user.PrimerApellido)
+                user.SegundoApellido = request.POST.get('segundoApellido', user.SegundoApellido)
+                user.NombreUsuario = request.POST.get('nombreUsuario', user.NombreUsuario)
+                
+                if request.POST.get('contrasena'):
+                    user.Contraseña = make_password(request.POST.get('contrasena'))
+                
+                user.save()
+                request.session['nombre'] = f"{user.PrimerNombre} {user.PrimerApellido}"
+                return redirect('perfiles')
+        
+        return render(request, 'perfiles.html', {
+            'usuario': user,
+            'imagen_perfil': user.imagen_perfil.url if user.imagen_perfil else '/static/img/perfil.png'
+        })
+        
+    except usuario.DoesNotExist:
+        return redirect('login')
+
+from django.http import JsonResponse
+
+def eliminar_foto_perfil(request):
+    if request.method == 'POST' and request.session.get('user_id'):
+        try:
+            user = usuario.objects.get(IdUsuario=request.session['user_id'])
+            if user.imagen_perfil:
+                user.imagen_perfil.delete()
+                user.imagen_perfil = None
+                user.save()
+            return JsonResponse({
+                'status': 'success',
+                'new_image_url': '/static/img/perfil.png'
+            })
+        except usuario.DoesNotExist:
+            pass
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+
 
 def crudCategorias(request):
     return render(request, 'crud/categorias.html')

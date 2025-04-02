@@ -24,13 +24,14 @@ from sexshop.views import (
     login, registro, recuperarContraseña, pedido, codigo, nuevaContraseña,
     insertarsubcategoria, listadosubcategorias, borrarsubcategoria, actualizarsubcategoria,editarusuario,
     borrarusuario, insertarusuario, carrito, lencerias, productosCarrito, insertardomiciliario, editardomiciliario, borrardomiciliario,
-    insertarproducto, editarproducto, borrarproducto, vibradores, disfraces, dildos
+    insertarproducto, editarproducto, borrarproducto, vibradores, disfraces, dildos, logout, eliminar_foto_perfil
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LadingPage, name='Ladingpage'),
     path('perfiles/', perfiles, name='perfiles'),
+    path('eliminar-foto-perfil/', eliminar_foto_perfil, name='eliminar_foto_perfil'),
     path('listadocategorias/', listadocategorias, name='listadocategorias'),
     path('insertarcategorias/', insertarcategorias, name='insertarcategorias'),
     path('categorias/borrar/<int:id_categoria>/', borrarcategoria, name='borrarcategoria'),
@@ -54,6 +55,7 @@ urlpatterns = [
     path('crud/usuarios/editar/<int:id_usuario>/', editarusuario, name='actualizarusuario'),
     path('crud/usuarios/eliminar/<int:id_usuario>/', borrarusuario, name='borrarusuario'),
     path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
     path('registro/', registro, name='registro'),
     path('login/recuperarContraseña', recuperarContraseña, name='recuperarContraseña'),
     path('pedido', pedido, name='pedido'),
