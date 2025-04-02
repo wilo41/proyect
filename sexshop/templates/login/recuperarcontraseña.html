@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" href="{% static 'css/style22.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+    <style>
+      .error {
+        border: 2px solid rgb(255, 0, 0);
+      }
+
+      .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none; /* Oculto por defecto */
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="form-container">
+   
+      <p class="title">Fantasia Intima</p>
+      <p class="title1">Recuperar Contraseña</p>
+      
+      <form class="form" id="recoverForm">
+        <input type="email" id="email" class="input" placeholder="Correo Electrónico">
+        <span class="error-message" id="error-email"></span>
+       
+      <a href="{% url 'codigo'%}"  style="text-align: center; text-decoration: none;" type="button" class="form-btn" onclick="validarCorreo()">Enviar código</a>
+      </form>
+
+    </div>
+
+  
+  </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const email = document.getElementById('email');
+      const inputs = document.querySelectorAll('input');
+      const errorMessages = document.querySelectorAll('.error-message');
+
+      // Función para validar en tiempo real el input de correo
+      function validateEmail() {
+        const errorMessage = document.getElementById('error-email');
+        if (!email.value.match(/^[^@]+@(gmail\.com|hotmail\.com|yahoo\.com)$/)) {
+          email.classList.add('error');
+          errorMessage.textContent = 'No es una dirección de correo válida';
+          errorMessage.style.display = 'block';
+        } else {
+          email.classList.remove('error');
+          errorMessage.style.display = 'none'; // Ocultar el mensaje si es válido
+        }
+      }
+
+
+
+      // Validación en tiempo real mientras se escribe en el campo "email"
+      email.addEventListener('input', validateEmail);
+
+  
+
+      // Función de validación al enviar el formulario
+      function validarFormulario() {
+        let hasError = false;
+
+        // Limpiar errores previos
+        inputs.forEach(input => input.classList.remove('error'));
+        errorMessages.forEach(span => span.style.display = 'none');
+
+        // Validar email
+        if (!email.value.match(/^[^@]+@(gmail\.com|hotmail\.com|yahoo\.com)$/)) {
+          email.classList.add('error');
+          document.getElementById('error-email').textContent = 'No es una dirección de correo válida';
+          document.getElementById('error-email').style.display = 'block';
+          hasError = true;z
+        }
+
+
+        // Verificar que todos los campos estén llenos
+        for (let i = 0; i < inputs.length; i++) {
+          if (inputs[i].value === '') {
+            inputs[i].classList.add('error');
+            const errorId = `error-${inputs[i].id}`;
+            document.getElementById(errorId).textContent = 'Este campo es obligatorio.';
+            document.getElementById(errorId).style.display = 'block';
+            hasError = true;
+          }
+        }
+
+        if (!hasError) {
+          alert('Formulario enviado correctamente.');
+          setTimeout(() => {
+            document.getElementById('loginForm').submit();
+          }, 1500);
+        }
+      }
+
+      // Asociar la validación al hacer clic en el botón de enviar
+      document.querySelector('.form-btn').addEventListener('click', validarFormulario);
+    });
+  </script>
+</html>

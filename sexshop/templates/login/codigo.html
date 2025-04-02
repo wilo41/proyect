@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/codigo.css' %}">
+</head>
+<body>
+    <div class="form-container">
+   
+        <p class="title">Ingresa el Codigo de Verificacion</p>
+        <p class="title1"> Comprueba si recibiste un correo electronico con tu codigo de 6 digitos.</p>
+        
+        <form class="form" id="recoverForm">
+
+            <div class="otp-inputs">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+                <input type="text" maxlength="1">
+              </div>
+
+          <p class="page-link">
+            <a class="page-link-label" href="">Volver a Enviar Codigo</a>
+          </p>
+         
+          <a href="{% url 'nuevaContraseña'%}"  style="text-align: center; text-decoration: none;" type="button" class="form-btn" onclick="validarCorreo()">Siguiente</a>
+        </form>
+  
+      </div>
+
+
+  
+</body>
+
+<script>
+   const inputs = document.querySelectorAll('.otp-inputs input');
+
+inputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    // Si el usuario ingresa un dígito, se mueve al siguiente campo
+    if (input.value.length === 1 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
+  });
+
+  input.addEventListener('keydown', (e) => {
+    // Si el usuario presiona "Backspace" y el campo está vacío, se mueve al campo anterior
+    if (e.key === 'Backspace' && input.value === '' && index > 0) {
+      inputs[index - 1].focus();
+    }
+  });
+});
+
+
+</script>
+</html>

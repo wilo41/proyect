@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/nuevaContraseña.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+</head>
+<body>
+    <div class="form-container">
+        <p class="title">Nueva Contraseña</p>
+        
+        <form class="form" id="loginForm">
+          <input type="password" id="password" class="input" placeholder="Nueva Contraseña">
+          <span class="error-message" id="error-password"></span>
+    
+          <input type="password" id="password2" class="input" placeholder="Confirmar Contraseña">
+          <span class="error-message" id="error-password2"></span>
+    
+          <a style="text-align: center; text-decoration: none;" type="button" class="form-btn" onclick="validarFormulario()">Cambiar Contraseña</a>
+        </form>
+    </div>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const password = document.getElementById('password');
+    const password2 = document.getElementById('password2');
+    const inputs = document.querySelectorAll('input');
+    const errorMessages = document.querySelectorAll('.error-message');
+  
+    // Función para validar en tiempo real el input de contraseña
+    function validatePassword(input, errorMessageId) {
+      const errorMessage = document.getElementById(errorMessageId);
+      if (/\s/.test(input.value) || input.value.length < 8 || !/^[\w!@#$%^&*()_+={}\[\]|;:'",.<>?/]+$/.test(input.value)) {
+        input.classList.add('error');
+        errorMessage.textContent = 'La contraseña debe tener mínimo 8 caracteres y no contener espacios.';
+        errorMessage.style.display = 'block';
+      } else {
+        input.classList.remove('error');
+        errorMessage.style.display = 'none'; // Ocultar el mensaje si es válido
+      }
+    }
+  
+    // Validación en tiempo real mientras se escribe en el campo "password"
+    password.addEventListener('input', () => {
+      validatePassword(password, 'error-password');
+    });
+  
+    // Validación en tiempo real mientras se escribe en el campo "password2"
+    password2.addEventListener('input', () => {
+      validatePassword(password2, 'error-password2');
+    });
+  
+    // Función de validación al enviar el formulario
+    function validarFormulario() {
+      let hasError = false;
+  
+      // Limpiar errores previos
+      inputs.forEach(input => input.classList.remove('error'));
+      errorMessages.forEach(span => span.style.display = 'none');
+  
+      // Validar la primera contraseña
+      if (/\s/.test(password.value) || password.value.length < 8 || !/^[\w!@#$%^&*()_+={}\[\]|;:'",.<>?/]+$/.test(password.value)) {
+        password.classList.add('error');
+        document.getElementById('error-password').textContent = 'La contraseña debe tener mínimo 8 caracteres y no contener espacios.';
+        document.getElementById('error-password').style.display = 'block';
+        hasError = true;
+      }
+  
+      // Validar la segunda contraseña
+      if (/\s/.test(password2.value) || password2.value.length < 8 || !/^[\w!@#$%^&*()_+={}\[\]|;:'",.<>?/]+$/.test(password2.value)) {
+        password2.classList.add('error');
+        document.getElementById('error-password2').textContent = 'La contraseña debe tener mínimo 8 caracteres y no contener espacios.';
+        document.getElementById('error-password2').style.display = 'block';
+        hasError = true;
+      }
+  
+      // Validar que ambas contraseñas coincidan
+      if (password.value !== password2.value) {
+        password2.classList.add('error');
+        document.getElementById('error-password2').textContent = 'Las contraseñas no coinciden.';
+        document.getElementById('error-password2').style.display = 'block';
+        hasError = true;
+      }
+  
+      // Si no hay errores, enviar el formulario
+      if (!hasError) {
+        alert('Formulario enviado correctamente.');
+        setTimeout(() => {
+          document.getElementById('loginForm').submit();
+        }, 1500);
+      }
+    }
+  
+    // Asociar la validación en tiempo real y la validación al enviar
+    document.querySelector('.form-btn').addEventListener('click', validarFormulario);
+  });
+  
+</script>
+</html>
+
