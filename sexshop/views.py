@@ -3,6 +3,8 @@ from django.db import connection
 from .models import categoria, subcategoria, usuario, roles, domiciliario, producto
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
+# from functools import wraps
+
 
 def LadingPage(request):
     categorias = categoria.objects.all().prefetch_related('subcategoria_set')
@@ -98,7 +100,7 @@ def registro(request):
             request.POST.get('Correo') and request.POST.get('NombreUsuario') and 
             request.POST.get('Contraseña')):
             
-            rol_default = roles.objects.get(IdRol=3)  # Asigna el rol predeterminado
+            rol_default = roles.objects.get(IdRol=3) 
             nuevo_usuario = usuario(
                 PrimerNombre=request.POST.get('PrimerNombre'),
                 OtrosNombres=request.POST.get('OtrosNombres'),
@@ -107,7 +109,7 @@ def registro(request):
                 Correo=request.POST.get('Correo'),
                 NombreUsuario=request.POST.get('NombreUsuario'),
                 Contraseña=make_password(request.POST.get('Contraseña')),
-                idRol=rol_default  # Asegurarse de que el rol sea 3
+                idRol=rol_default
             )   
             nuevo_usuario.save()
             return redirect('login')
@@ -118,28 +120,28 @@ def login(request):
     if request.method == "POST":
         correo = request.POST.get('correo')
         contraseña = request.POST.get('contraseña')
-
-        # Buscar usuario
+        
         try:
             user = usuario.objects.get(Correo=correo)
-            if check_password(contraseña, user.Contraseña):
+            
+            if user.Contraseña == contraseña or check_password(contraseña, user.Contraseña):
                 request.session['user_id'] = user.IdUsuario
                 request.session['username'] = user.NombreUsuario
                 request.session['nombre'] = f"{user.PrimerNombre} {user.PrimerApellido}"
+                request.session['role'] = user.idRol.IdRol  # Store the user's role
                 return redirect('Ladingpage')
+                
         except usuario.DoesNotExist:
-            pass
-
-        # Buscar domiciliario
-        try:
-            domi = domiciliario.objects.get(Correo=correo)
-            if check_password(contraseña, domi.Contraseña):
-                request.session['user_id'] = domi.IdDomiciliario
-                request.session['username'] = domi.NombreDomiciliario
-                request.session['nombre'] = domi.NombreDomiciliario
-                return redirect('Ladingpage')
-        except domiciliario.DoesNotExist:
-            pass
+            try:
+                domi = domiciliario.objects.get(Correo=correo)
+                if domi.Contraseña == contraseña or check_password(contraseña, domi.Contraseña):
+                    request.session['user_id'] = domi.IdDomiciliario
+                    request.session['username'] = domi.NombreDomiciliario
+                    request.session['nombre'] = domi.NombreDomiciliario
+                    request.session['role'] = 2  # Role for domiciliario
+                    return redirect('Ladingpage')
+            except domiciliario.DoesNotExist:
+                pass
 
         return render(request, 'login/login.html', {'error': 'Credenciales inválidas'})
     
@@ -159,7 +161,7 @@ def insertarusuario(request):
             request.POST.get('Correo') and request.POST.get('NombreUsuario') and
             request.POST.get('Contraseña')):
 
-            rol_default = roles.objects.get(IdRol=3)  # Asigna el rol predeterminado
+            rol_default = roles.objects.get(IdRol=3)  
             nuevo_usuario = usuario(
                 PrimerNombre=request.POST.get('PrimerNombre'),
                 OtrosNombres=request.POST.get('OtrosNombres'),
@@ -306,7 +308,7 @@ def borrarproducto(request, id_producto):
     return redirect('crudProductos')
 #endregion
 
-
+# region perfiles
 def perfiles(request):
     if not request.session.get('user_id'):
         return redirect('login')
@@ -378,6 +380,7 @@ def eliminar_cuenta(request):
         except usuario.DoesNotExist:
             pass
     return JsonResponse({'status': 'error'}, status=400)
+# endregion
 
 def crudCategorias(request):
     return render(request, 'crud/categorias.html')
@@ -458,7 +461,3 @@ def dildos(request):
 def productosCarrito(request):
     productos = producto.objects.all()  # Obtener todos los productos
     return render(request, 'carrito/productos.html', {'productos': productos})
-
-
-
-
